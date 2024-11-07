@@ -1,5 +1,6 @@
 # Spring 스터디
 - 게시판 만들기
+---
 
 ### Stack
 - Java 17
@@ -16,6 +17,7 @@
     - 댓글 CRUD
 
 ### ERD
+![ERD](https://github.com/user-attachments/assets/5a3e2f6f-db43-42fa-b5db-e33bc01ceb63)
 
 
 ### API docs
