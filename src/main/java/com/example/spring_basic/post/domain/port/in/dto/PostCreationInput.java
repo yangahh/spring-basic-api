@@ -1,6 +1,6 @@
-package com.example.spring_basic.post.adapter.in.web.dto;
+package com.example.spring_basic.post.domain.port.in.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,13 +10,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostCreationRequestDto {
-    @NotBlank
+public class PostCreationInput {
+
+    @NotNull
     private String title;
 
-    @NotBlank
+    @NotNull
     private String content;
 
-    @NotBlank
+    // TODO: Change to User ID
+    @NotNull
     private String author;
 }

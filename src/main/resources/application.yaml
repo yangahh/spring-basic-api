@@ -14,7 +14,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
+#        show_sql: true
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
         default_batch_fetch_size: 100  # pre-fetch로 가져올 때 한 번에 가져올 수 있는 데이터 수(sql where문에서 in절에 넣을 파라미터 개수)
