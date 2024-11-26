@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PostMapper {
-    public PostCreationInput mapToDomainDtoFromCreationRequest(PostCreationRequestDto requestDto) {
+    public PostCreationInput mapToDomainInputDtoFromRequestDto(PostCreationRequestDto requestDto) {
         return PostCreationInput.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())

@@ -54,7 +54,7 @@ public class PostRepositoryImpl implements PostRepository {
             model.setContent(input.getContent());
         }
 
-        return mapper.mapToDomainEntity(jpaPostRepository.save(model));
+        return mapper.mapToDomainEntity(jpaPostRepository.saveAndFlush(model));
     }
 
     @Override

@@ -28,7 +28,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<String> createPost(@Valid @RequestBody PostCreationRequestDto requestDto) {
-        createPostUsecase.execute(mapper.mapToDomainDtoFromCreationRequest(requestDto));
+        createPostUsecase.execute(mapper.mapToDomainInputDtoFromRequestDto(requestDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

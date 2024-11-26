@@ -23,6 +23,7 @@ public class PostModel {
     private Long id;
 
     @NotNull
+    @Column(name = "TITLE", nullable = false)
     private String title;
 
     @NotNull
