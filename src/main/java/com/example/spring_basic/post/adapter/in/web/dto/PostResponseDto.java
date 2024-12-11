@@ -13,7 +13,8 @@ public class PostResponseDto {
     private Long id;
     private String title;
     private String content;
-    private String author; // TODO: Change to User ID, username
+    private Long userId;
+    private String username;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

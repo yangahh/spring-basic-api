@@ -1,5 +1,6 @@
 package com.example.spring_basic.post.adapter.in.web.controller;
 
+import com.example.spring_basic.global.utils.authentication.AuthUtil;
 import com.example.spring_basic.post.adapter.in.web.dto.PostCreationRequestDto;
 import com.example.spring_basic.post.adapter.in.web.dto.PostResponseDto;
 import com.example.spring_basic.post.adapter.in.web.dto.PostUpdateRequestDto;
@@ -27,9 +28,10 @@ public class PostController {
     private final PostMapper mapper;
 
     @PostMapping
-    public ResponseEntity<String> createPost(@Valid @RequestBody PostCreationRequestDto requestDto) {
-        createPostUsecase.execute(mapper.mapToDomainDtoFromCreationRequest(requestDto));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<PostResponseDto> createPost(@Valid @RequestBody PostCreationRequestDto requestDto) {
+        Post newPost = createPostUsecase.execute(mapper.mapToDomainInputDtoFromRequestDto(requestDto, AuthUtil.getUserId()));
+        PostResponseDto res = mapper.mapToResponseDto(newPost);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -48,14 +50,14 @@ public class PostController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<PostResponseDto> updatePost(@PathVariable("id") Long id, @Valid @RequestBody PostUpdateRequestDto requestDto) {
-        Post updated = updatePostUsecase.execute(mapper.mapToDomainEntityFromUpdateRequest(id, requestDto));
+        Post updated = updatePostUsecase.execute(mapper.mapToDomainEntityFromUpdateRequest(id, requestDto), AuthUtil.getUserId());
         PostResponseDto res = mapper.mapToResponseDto(updated);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable("id") Long id) {
-        deletePostUsecase.execute(id);
+        deletePostUsecase.execute(id, AuthUtil.getUserId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

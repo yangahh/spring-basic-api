@@ -1,5 +1,6 @@
 package com.example.spring_basic.post.domain.port.in.dto;
 
+import com.example.spring_basic.user.domain.entity.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,6 @@ public class PostCreationInput {
     @NotNull
     private String content;
 
-    // TODO: Change to User ID
     @NotNull
-    private String author;
+    private Long userId;
 }

@@ -3,15 +3,21 @@ package com.example.spring_basic.post.adapter.out.persistence.mapper;
 import com.example.spring_basic.post.adapter.out.persistence.model.PostModel;
 import com.example.spring_basic.post.domain.entity.Post;
 import com.example.spring_basic.post.domain.port.in.dto.PostCreationInput;
+import com.example.spring_basic.user.adapter.out.persistence.mapper.JpaUserMapper;
+import com.example.spring_basic.user.domain.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class JpaPostMapper {
-    public PostModel mapToJpaModelFromCreationInput(PostCreationInput input) {
+    private final JpaUserMapper jpaUserMapper;
+
+    public PostModel mapToJpaModelFromCreationInput(PostCreationInput input, User user) {
         return PostModel.builder()
                 .title(input.getTitle())
                 .content(input.getContent())
-                .author(input.getAuthor())
+                .user(jpaUserMapper.mapToJpaModel(user))
                 .build();
     }
 
@@ -20,7 +26,7 @@ public class JpaPostMapper {
                 .id(model.getId())
                 .title(model.getTitle())
                 .content(model.getContent())
-                .author(model.getAuthor())
+                .user(jpaUserMapper.mapToDomainEntity(model.getUser()))
                 .createdAt(model.getCreatedAt())
                 .updatedAt(model.getUpdatedAt())
                 .build();
@@ -31,7 +37,7 @@ public class JpaPostMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .author(post.getAuthor())
+                .user(jpaUserMapper.mapToJpaModel(post.getUser()))
                 .updatedAt(post.getUpdatedAt())
                 .build();
     }

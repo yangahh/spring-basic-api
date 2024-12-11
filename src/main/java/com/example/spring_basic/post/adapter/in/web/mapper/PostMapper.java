@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PostMapper {
-    public PostCreationInput mapToDomainDtoFromCreationRequest(PostCreationRequestDto requestDto) {
+    public PostCreationInput mapToDomainInputDtoFromRequestDto(PostCreationRequestDto requestDto, Long userId) {
         return PostCreationInput.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
-                .author(requestDto.getAuthor())
+                .userId(userId)
                 .build();
     }
 
@@ -30,7 +30,8 @@ public class PostMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .author(post.getAuthor())
+                .userId(post.getUser().getId())
+                .username(post.getUser().getUsername())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .build();
