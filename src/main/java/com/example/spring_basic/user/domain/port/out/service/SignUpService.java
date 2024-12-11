@@ -14,6 +14,13 @@ public class SignUpService implements SignUpUsecase {
 
     @Override
     public User execute(SignUpInputDto signUpInputDto) {
+        checkAlreadyExisting(signUpInputDto.username(), signUpInputDto.email());
         return userRepository.save(signUpInputDto);
+    }
+
+    private void checkAlreadyExisting(String username, String email) {
+        if (userRepository.existsByUsername(username) || userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Username or email already exists");
+        }
     }
 }

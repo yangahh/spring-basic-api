@@ -3,10 +3,7 @@ package com.example.spring_basic.user.adapter.out.persistence.model;
 import com.example.spring_basic.user.domain.vo.AccountStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,9 +13,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "USER")
+@Table(name = "USERS")  // 예약어 때문에 s를 붙여줌
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
 public class UserModel {
@@ -43,11 +40,11 @@ public class UserModel {
     @Column(name = "STATUS", nullable = false)
     @ColumnDefault("'ACTIVE'")
     @Enumerated(EnumType.STRING)
-    private AccountStatus status;
+    private AccountStatus status = AccountStatus.ACTIVE; // 기본값 설정
 
-    @Column(name = "IS_STAFF", nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(name = "IS_STAFF", nullable = false)
     @ColumnDefault("0")
-    private boolean isStaff;
+    private boolean isStaff = false;  // 기본값 설정
 
     @Column(name = "LAST_LOGIN_AT")
     private LocalDateTime lastLoginAt;

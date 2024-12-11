@@ -32,4 +32,19 @@ public class JpaUserMapper {
                 .updatedAt(model.getUpdatedAt())
                 .build();
     }
+
+    public UserModel mapToJpaModel(User user) {
+        return UserModel.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .status(user.getAccountStatus())
+                .isStaff(user.isStaff())
+                .lastLoginAt(user.getLastLoginAt())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
+    }
 }

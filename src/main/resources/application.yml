@@ -1,9 +1,15 @@
 server:
   port: 8080
+#  error:
+#    whitelabel:
+#      enabled: false
 
 spring:
   application:
     name: spring-basic
+#  config:
+#    activate:
+#      on-profile: local
   datasource:
     url: jdbc:mysql://localhost:3307/basic
     username: user
@@ -12,6 +18,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
 #        show_sql: true
@@ -23,6 +31,17 @@ spring:
     multipart:
       max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기를 제한
       max-request-size: 100MB # 파일 업로드 요청 시 모든 파일의 크기의 합을 제한
+
+  # jwt custom 설정 예시
+  jwt:
+    secret: 2f8b2d2b99a687feec19ea20235f560d233aaaea
+    prefix: "Bearer "
+    access:
+      expired-ms: 600000 # 10min
+      header: Authorization
+    refresh:
+      expired-ms: 86400000  # 24hour
+      header: X-Refresh-Token
 
 logging.level:
   org.hibernate.SQL: debug
