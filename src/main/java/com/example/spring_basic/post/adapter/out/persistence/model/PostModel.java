@@ -1,5 +1,6 @@
 package com.example.spring_basic.post.adapter.out.persistence.model;
 
+import com.example.spring_basic.user.adapter.out.persistence.model.UserModel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)  // JPA 감사 리스너 추가
 @Table(name = "POST")
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
 public class PostModel {
@@ -29,9 +30,10 @@ public class PostModel {
     @NotNull
     private String content;
 
-    // TODO: Change to User Model
     @NotNull
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)  // ManyToOne은 기본적으로 EAGER 전략이다.
+    @JoinColumn(name = "USER_ID", referencedColumnName = "id")
+    private UserModel user;
 
     @CreatedDate
     @Column(name = "CREATED_AT")

@@ -14,7 +14,7 @@ public class UpdatePostService implements UpdatePostUsecase {
 
     @Override
     @Transactional
-    public Post execute(Post post) {
-        return postRepository.update(post);
+    public Post execute(Post post, Long requestUserId) {
+        return postRepository.update(post, requestUserId);
     }
 }

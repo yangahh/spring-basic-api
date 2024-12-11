@@ -16,7 +16,4 @@ public class PostCreationRequestDto {
 
     @NotBlank
     private String content;
-
-    @NotBlank
-    private String author;
 }

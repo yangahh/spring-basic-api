@@ -1,5 +1,6 @@
 package com.example.spring_basic.post.domain.entity;
 
+import com.example.spring_basic.user.domain.entity.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,9 +25,8 @@ public class Post {
     @NotNull
     private String content;
 
-    // TODO: Change to User Entity
     @NotNull
-    private String author;
+    private User user;
 
     @NotNull
     private LocalDateTime createdAt;

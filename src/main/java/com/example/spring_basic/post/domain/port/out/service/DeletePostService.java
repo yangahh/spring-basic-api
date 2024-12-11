@@ -13,7 +13,9 @@ public class DeletePostService implements DeletePostUsecase {
 
     @Override
     @Transactional
-    public void execute(Long id) {
-        postRepository.delete(id);
+    public void execute(Long id, Long requestUserId) {
+        postRepository.delete(id, requestUserId);
     }
+
+    // TODO: ownership check -> Usecase단으로 옮기기
 }
