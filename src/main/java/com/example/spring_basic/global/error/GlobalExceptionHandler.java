@@ -1,10 +1,12 @@
 package com.example.spring_basic.global.error;
 
-import com.example.spring_basic.global.error.exception.NotFoundException;
+import com.example.spring_basic.global.api.resposne.ApiResponseCode;
+import com.example.spring_basic.global.api.resposne.ErrorResponse;
+import com.example.spring_basic.global.error.exception.notfound.NotFoundException;
+import com.example.spring_basic.global.error.exception.badrequest.InvalidInputException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,32 +14,36 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /*
-     * Not Found Exception
+     * Bean Validation 예외 처리
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
+        InvalidInputException invalidInputException = new InvalidInputException(e.getBindingResult());
+        return ErrorResponse.of(ApiResponseCode.BAD_REQUEST.getCode(),
+                                ApiResponseCode.BAD_REQUEST.getMessage(),
+                                request.getRequestURI(),
+                                invalidInputException.getDescription());
+    }
+
+    /*
+     * 기본 Not Found Exception
      */
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e, HttpServletRequest request) {
-        log.error("NotFoundException", e);
-        return buildErrorResponse(e, request, HttpStatus.NOT_FOUND);
+    public ErrorResponse handleNotFoundException(NotFoundException e, HttpServletRequest request) {
+        return ErrorResponse.of(ApiResponseCode.NOT_FOUND.getCode(),
+                                ApiResponseCode.NOT_FOUND.getMessage(),
+                                request.getRequestURI(),
+                                e.getMessage());
     }
 
     /*
      * 기타 모든 예외 발생
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) {
+    public ErrorResponse handleUnhandledException(Exception e, HttpServletRequest request) {
         log.error("Exception", e);
-        return buildErrorResponse(e, request, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ErrorResponse.of(ApiResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                ApiResponseCode.INTERNAL_SERVER_ERROR.getMessage(),
+                request.getRequestURI());
     }
-
-    private ResponseEntity<ErrorResponse> buildErrorResponse(Exception e, HttpServletRequest request, HttpStatus httpStatus) {
-        ErrorResponse res = ErrorResponse.builder()
-                .code(httpStatus.toString())
-                .requestUrl(request.getRequestURI())
-                .status(httpStatus)
-                .message(e.getMessage())
-                .build();
-        return new ResponseEntity<>(res, httpStatus);
-    }
-
-
 }
