@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: test
+  application:
+    name: spring-basic
+
+  datasource:
+    url: jdbc:h2:mem:testdb;NON_KEYWORDS=USER
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        globally_quoted_identifiers: true
+  #    defer-datasource-initialization: true  # script 파일(schema.sql, data.sql)이 hibernate 초기화 이후 동작하게 하기 위한 옵션
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+        trace: true
+  jwt:
+    secret: 2f8b2d2b99a687feec19ea20235f560d233aaaea
+    prefix: "Bearer "
+    access:
+      expired-ms: 600000 # 10min
+      header: Authorization
+    refresh:
+      expired-ms: 86400000  # 24hour
+      header: X-Refresh-Token
